@@ -1,9 +1,9 @@
+import { modalStyles } from '../../helpers/helpers';
+import { useStore } from '../../store';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Modal, Typography, Box, TextField, Button } from '@mui/material/';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { useStore } from '../../store';
-import { modalStyles } from '../../helpers/helpers';
 
 export default function RegistrationModal() {
     const { showRegister, toggleShowRegister, toggleSnackbarError, toggleSnackbar } = useStore();
@@ -84,10 +84,10 @@ export default function RegistrationModal() {
                             sx={{ mb: 1 }}
                             fullWidth
                             id="password-confirmation"
-                            label="Repeat password"
+                            label="Confirm password"
                             variant="outlined"
                             type="password"
-                            {...register('repeatPassword', {
+                            {...register('confirmPassword', {
                                 required: true,
                                 validate: (val: string) => {
                                     if (watch('password') != val) {
@@ -96,8 +96,8 @@ export default function RegistrationModal() {
                                 },
                             })}
                         />
-                        {errors.repeatPassword?.message && (
-                            <Typography variant="caption">{`${errors.repeatPassword.message}`}</Typography>
+                        {errors.confirmPassword?.message && (
+                            <Typography variant="caption">{`${errors.confirmPassword.message}`}</Typography>
                         )}
                     </Box>
                     <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between' }}>

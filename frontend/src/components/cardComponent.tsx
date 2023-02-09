@@ -1,15 +1,43 @@
-import * as React from 'react';
+import { currencyFormatter } from '../helpers/helpers';
+import { useStore } from '../store';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { Button, CardActionArea, CardActions, IconButton, Box } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions, IconButton, Box } from '@mui/material';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import { useStore } from '../store';
-import { currencyFormatter } from '../helpers/helpers';
+import { useMutation, useQueryClient } from 'react-query';
 
 export default function ProductCard({ products }: { products: any }) {
-    const { loggedIn, addCartItem } = useStore();
+    const { email, loggedIn, addCartItem, toggleSnackbar, toggleSnackbarError } = useStore();
+    const queryClient = useQueryClient();
+
+    const handleAddCart = (item: any) => {
+        mutate(item);
+    };
+
+    const { mutate, isLoading, isSuccess, isError } = useMutation({
+        mutationFn: (formData: any) => {
+            console.log(formData);
+            formData['email'] = email;
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            };
+            return fetch('http://localhost:8000/cart/add', requestOptions);
+        },
+        onSuccess: async (data) => {
+            console.log(data);
+            if (data.status == 201) {
+                toggleSnackbar();
+            } else if (data.status != 201) {
+                toggleSnackbarError();
+            }
+            addCartItem();
+        },
+        onError: async () => toggleSnackbarError(),
+    });
 
     return (
         <Box
@@ -63,7 +91,7 @@ export default function ProductCard({ products }: { products: any }) {
                                     <>
                                         <IconButton
                                             onClick={() => {
-                                                addCartItem();
+                                                handleAddCart(item);
                                             }}
                                             aria-label="add to shopping cart"
                                         >

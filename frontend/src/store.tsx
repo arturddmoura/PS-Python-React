@@ -7,12 +7,14 @@ type AddModal = {
     snackbar: boolean;
     snackbarError: boolean;
     cartItems: number;
+    email: string;
     toggleLoggedIn: () => void;
     toggleShowLogin: () => void;
     toggleShowRegister: () => void;
     toggleSnackbar: () => void;
     toggleSnackbarError: () => void;
     addCartItem: () => void;
+    setEmail: (newValue: string) => void;
 };
 
 export const useStore = create<AddModal>((set) => ({
@@ -22,10 +24,12 @@ export const useStore = create<AddModal>((set) => ({
     snackbar: false,
     snackbarError: false,
     cartItems: 0,
+    email: '',
     toggleLoggedIn: () => set((state) => ({ loggedIn: !state.loggedIn })),
     toggleShowLogin: () => set((state) => ({ showLogin: !state.showLogin })),
     toggleShowRegister: () => set((state) => ({ showRegister: !state.showRegister })),
     toggleSnackbar: () => set((state) => ({ snackbar: !state.snackbar })),
     toggleSnackbarError: () => set((state) => ({ snackbarError: !state.snackbarError })),
     addCartItem: () => set((state) => ({ cartItems: state.cartItems + 1 })),
+    setEmail: (newValue) => set({ email: newValue }),
 }));

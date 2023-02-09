@@ -1,20 +1,55 @@
-import { useQuery } from 'react-query';
 import ProductCard from '../components/cardComponent';
-import RegistrationModal from '../components/modals/registrationModal';
+import Loading from '../components/loading/loading';
 import LoginModal from '../components/modals/loginModal';
+import RegistrationModal from '../components/modals/registrationModal';
+import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
 
 export default function Products() {
+    const [sort, setSort] = useState('name');
+    const handleChange = (event: SelectChangeEvent) => {
+        setSort(event.target.value);
+    };
+
     const fetchProducts = async () => {
-        const res = await fetch('http://localhost:8000/products/list/all');
+        const res = await fetch(`http://localhost:8000/products/list/${sort}`);
         return res.json();
     };
-    const { isLoading, isError, data } = useQuery('products', fetchProducts);
+    const { isLoading, isError, data } = useQuery(['products', sort], fetchProducts);
 
     return (
         <>
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                }}
+            >
+                <FormControl sx={{ m: 2, minWidth: 120 }} size="small">
+                    <InputLabel id="demo-select-small">Sort</InputLabel>
+                    <Select
+                        labelId="demo-select-small"
+                        id="demo-select-small"
+                        value={sort}
+                        label="Sort"
+                        onChange={handleChange}
+                    >
+                        <MenuItem value={'name'}>Name</MenuItem>
+                        <MenuItem value={'price'}>Price</MenuItem>
+                        <MenuItem value={'score'}>Score</MenuItem>
+                    </Select>
+                </FormControl>
+            </Box>
+
             <RegistrationModal />
             <LoginModal />
-            <div>{data && <ProductCard products={data} />}</div>
+            {isLoading && <Loading />}
+            {data && <ProductCard products={data} />}
         </>
     );
 }

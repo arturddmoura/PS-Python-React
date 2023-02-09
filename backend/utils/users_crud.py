@@ -1,9 +1,6 @@
 from uuid import UUID
-
 from sqlalchemy.orm import Session
-
 from database.models import Users
-from schemas.models import DeletePostResponse, Product, UpdatePost
 
 
 def user_create(db: Session, user: Users):

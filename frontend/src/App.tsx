@@ -1,10 +1,11 @@
 import './App.css';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import Products from './pages/products';
 import NavBar from './components/navBar';
-import { useStore } from './store';
-import SnackBarError from './components/snackbars/snackBarError';
 import SnackBar from './components/snackbars/snackBar';
+import SnackBarError from './components/snackbars/snackBarError';
+import Products from './pages/products';
+import { useStore } from './store';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
 const queryClient = new QueryClient();
 
 export default function App() {

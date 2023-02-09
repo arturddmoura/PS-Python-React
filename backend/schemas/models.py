@@ -42,6 +42,17 @@ class Users(BaseModel):
         orm_mode = True
 
 
+class UserCart(BaseModel):
+    id: Optional[UUID]
+    email: str
+    name: str
+    price: float
+    image: str
+
+    class Config:
+        orm_mode = True
+
+
 class Login(BaseModel):
     email: str
     password: str

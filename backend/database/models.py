@@ -27,4 +27,15 @@ class Users(Base):
     password = Column(String)
 
 
+class Cart(Base):
+    __tablename__ = "cart"
+
+    id = Column(UUID(as_uuid=True), primary_key=True,
+                default=uuid.uuid4, index=True)
+    email = Column(String)
+    name = Column(String)
+    price = Column(Float)
+    image = Column(String)
+
+
 Base.metadata.create_all(engine)

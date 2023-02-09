@@ -1,12 +1,14 @@
+import { modalStyles } from '../../helpers/helpers';
+import { useStore } from '../../store';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Modal, Typography, Box, TextField, Button } from '@mui/material/';
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { useStore } from '../../store';
-import { modalStyles } from '../../helpers/helpers';
 
 export default function LoginModal() {
-    const { showLogin, toggleShowLogin, toggleSnackbarError, toggleSnackbar, toggleLoggedIn } = useStore();
+    const { showLogin, toggleShowLogin, toggleSnackbarError, toggleSnackbar, toggleLoggedIn, setEmail } = useStore();
+    const [emailAddress, setEmailAddress] = useState('');
 
     const { mutate, isLoading, isSuccess, isError } = useMutation({
         mutationFn: (formData: any) => {
@@ -15,6 +17,7 @@ export default function LoginModal() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             };
+            setEmailAddress(formData.email);
             return fetch('http://localhost:8000/user/login', requestOptions);
         },
         onSuccess: async (data) => {
@@ -22,6 +25,7 @@ export default function LoginModal() {
                 toggleSnackbar();
                 toggleShowLogin();
                 toggleLoggedIn();
+                setEmail(emailAddress);
             } else if (data.status == 401) {
                 toggleSnackbarError();
             }
