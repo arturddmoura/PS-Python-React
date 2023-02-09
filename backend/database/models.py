@@ -17,4 +17,14 @@ class Products(Base):
     image = Column(String)
 
 
+class Users(Base):
+    __tablename__ = "users"
+
+    id = Column(UUID(as_uuid=True), primary_key=True,
+                default=uuid.uuid4, index=True)
+    name = Column(String)
+    email = Column(String)
+    password = Column(String)
+
+
 Base.metadata.create_all(engine)

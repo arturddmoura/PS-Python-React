@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes.products import router
+from routes.products import router as api_products
+from routes.users import router as api_users
 
 
 app = FastAPI()
@@ -19,7 +20,8 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-app.include_router(router=router, prefix="/products")
+app.include_router(router=api_products, prefix="/products")
+app.include_router(router=api_users, prefix="/user")
 
 
 @app.get("/", tags=["root"])

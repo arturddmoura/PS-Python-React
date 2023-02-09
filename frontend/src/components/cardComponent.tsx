@@ -6,11 +6,9 @@ import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 
 export default function ProductCard({ products }: { products: any }) {
-    console.log(products);
     return (
         <>
             {products.map((item: any) => {
-                console.log(item);
                 return (
                     <Card sx={{ maxWidth: 345 }}>
                         {/* <CardMedia component="img" height="140" image={`/assets/${item.image}`} /> */}
