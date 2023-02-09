@@ -14,7 +14,6 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
             {snackbarError && <SnackBarError />}
             {snackbar && <SnackBar />}
-
             <NavBar />
             <Products />
         </QueryClientProvider>

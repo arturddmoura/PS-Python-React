@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 import ProductCard from '../components/cardComponent';
 import RegistrationModal from '../components/modals/registrationModal';
+import LoginModal from '../components/modals/loginModal';
 
 export default function Products() {
     const fetchProducts = async () => {
@@ -12,6 +13,7 @@ export default function Products() {
     return (
         <>
             <RegistrationModal />
+            <LoginModal />
             <div>{data && <ProductCard products={data} />}</div>
         </>
     );
