@@ -1,8 +1,9 @@
 backend/venv
+backend/database/connection.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-
+.env
 # C extensions
 *.so
 
