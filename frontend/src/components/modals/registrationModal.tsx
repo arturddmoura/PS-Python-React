@@ -1,12 +1,12 @@
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Modal, Typography, Box, TextField, Button } from '@mui/material/';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import { useStore } from '../../store';
 import { modalStyles } from '../../helpers/helpers';
 
 export default function RegistrationModal() {
-    const queryClient = useQueryClient();
+    const { showRegister, toggleShowRegister, toggleSnackbarError, toggleSnackbar } = useStore();
 
     const { mutate, isLoading, isSuccess, isError } = useMutation({
         mutationFn: (formData: any) => {
@@ -17,15 +17,19 @@ export default function RegistrationModal() {
             };
             return fetch('http://localhost:8000/user/create', requestOptions);
         },
-        onSuccess: async () => {
-            queryClient.invalidateQueries('products');
-            toggleShowRegister();
-            //toggleSnackbar();
+        onSuccess: async (data) => {
+            if (data.status == 201) {
+                toggleSnackbar();
+                toggleShowRegister();
+            } else if (data.status == 406) {
+                toggleSnackbarError();
+            }
         },
-        //onError: async () => toggleSnackbarError(),
+        onError: async (error) => {
+            toggleSnackbarError();
+        },
     });
 
-    const { showRegister, toggleShowRegister } = useStore();
     const {
         reset,
         register,
@@ -51,7 +55,7 @@ export default function RegistrationModal() {
                         <TextField
                             sx={{ mt: 3, mb: 1 }}
                             fullWidth
-                            id="standard-required"
+                            id="name"
                             label="Name"
                             variant="outlined"
                             {...register('name', { required: true })}
@@ -60,7 +64,7 @@ export default function RegistrationModal() {
                         <TextField
                             sx={{ mb: 1 }}
                             fullWidth
-                            id="standard-required"
+                            id="email"
                             label="E-mail"
                             variant="outlined"
                             {...register('email', { required: true })}
@@ -69,7 +73,7 @@ export default function RegistrationModal() {
                         <TextField
                             sx={{ mb: 1 }}
                             fullWidth
-                            id="standard-required"
+                            id="password"
                             label="Password"
                             variant="outlined"
                             type="password"
@@ -79,14 +83,13 @@ export default function RegistrationModal() {
                         <TextField
                             sx={{ mb: 1 }}
                             fullWidth
-                            id="standard-required"
+                            id="password-confirmation"
                             label="Repeat password"
                             variant="outlined"
                             type="password"
                             {...register('repeatPassword', {
                                 required: true,
                                 validate: (val: string) => {
-                                    console.log(val);
                                     if (watch('password') != val) {
                                         return 'Your passwords do no match';
                                     }
@@ -102,7 +105,6 @@ export default function RegistrationModal() {
                             variant="contained"
                             onClick={() => {
                                 reset();
-                                console.log(errors);
                             }}
                         >
                             RESET

@@ -40,3 +40,11 @@ class Users(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class Login(BaseModel):
+    email: str
+    password: str
+
+    class Config:
+        orm_mode = True

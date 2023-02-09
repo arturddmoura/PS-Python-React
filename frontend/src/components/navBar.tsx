@@ -20,7 +20,6 @@ export default function NavBar() {
                     <Button
                         color="inherit"
                         onClick={() => {
-                            console.log(showRegister);
                             toggleShowRegister();
                         }}
                     >
