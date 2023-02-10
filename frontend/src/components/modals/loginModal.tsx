@@ -6,10 +6,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
 export default function LoginModal() {
-    const { email, showLogin, toggleShowLogin, toggleSnackbarError, toggleSnackbar, toggleLoggedIn, setEmail } =
-        useStore();
+    const { showLogin, toggleShowLogin, toggleSnackbarError, toggleSnackbar, toggleLoggedIn, setEmail } = useStore();
 
-    const { mutate, isLoading, isSuccess, isError } = useMutation({
+    const { mutate, isLoading } = useMutation({
         mutationFn: (formData: any) => {
             const requestOptions = {
                 method: 'POST',

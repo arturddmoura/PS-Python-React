@@ -2,18 +2,42 @@ import { cartStyles, currencyFormatter } from '../../helpers/helpers';
 import { useStore } from '../../store';
 import CartTable from '../table/cartTable';
 import { Box, Button, Modal, Typography } from '@mui/material/';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 function subtotal(items: any) {
-    return (items || []).map(({ price }: { price: GLfloat }) => price).reduce((sum: any, i: any) => sum + i, 0);
+    return (items || []).map(({ price }: { price: number }) => price).reduce((sum: any, i: any) => sum + i, 0);
 }
 
 function shipping(items: any) {
-    return (items || []).map(({ price }: { price: GLfloat }) => price).reduce((sum: any, i: any) => sum + 10, 0);
+    return (items || []).map(({ price }: { price: number }) => price).reduce((sum: any, i: any) => sum + 10, 0);
 }
 
 export default function CartModal() {
-    const { email, showCart, toggleShowCart } = useStore();
+    const { email, showCart, toggleShowCart, toggleSnackbarError, toggleSnackbar, setCartItems } = useStore();
+    const queryClient = useQueryClient();
+
+    const { mutate } = useMutation({
+        mutationFn: (email: string) => {
+            const requestOptions = {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            };
+            return fetch(`/api/cart/checkout/${email}`, requestOptions);
+        },
+        onSuccess: async (data: { status: number }) => {
+            if (data.status == 200) {
+                toggleSnackbar();
+                setCartItems(0);
+                toggleShowCart();
+            } else if (data.status == 404) {
+                toggleSnackbarError();
+            }
+            queryClient.invalidateQueries('cart');
+        },
+        onError: async (error) => {
+            toggleSnackbarError();
+        },
+    });
 
     const fetchCart = async () => {
         const requestOptions = {
@@ -70,7 +94,7 @@ export default function CartModal() {
                             </Typography>
                         </Box>
                         <Box sx={{ alignSelf: 'flex-end' }}>
-                            <Button onClick={() => console.log('foi')} variant="contained">
+                            <Button onClick={() => mutate(email)} variant="contained">
                                 Checkout
                             </Button>
                         </Box>

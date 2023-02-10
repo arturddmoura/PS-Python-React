@@ -11,7 +11,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { ChangeEvent, useState, MouseEvent } from 'react';
+import { MouseEvent, useState } from 'react';
 import { useQuery } from 'react-query';
 
 export default function NavBar() {
@@ -24,6 +24,7 @@ export default function NavBar() {
         toggleShowLogin,
         toggleShowRegister,
         toggleShowCart,
+        toggleShowOrderHistory,
     } = useStore();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -98,7 +99,14 @@ export default function NavBar() {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleClose}>Order history</MenuItem>
+                                <MenuItem
+                                    onClick={() => {
+                                        toggleShowOrderHistory();
+                                        handleClose();
+                                    }}
+                                >
+                                    Order history
+                                </MenuItem>
                                 <MenuItem
                                     onClick={() => {
                                         toggleLoggedIn();

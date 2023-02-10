@@ -45,7 +45,6 @@ export default function Products() {
                     </Select>
                 </FormControl>
             </Box>
-
             <RegistrationModal />
             <LoginModal />
             {isLoading && <Loading />}

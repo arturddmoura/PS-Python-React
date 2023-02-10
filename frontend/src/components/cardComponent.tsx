@@ -6,11 +6,10 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 
 export default function ProductCard({ products }: { products: any }) {
     const { email, loggedIn, addCartItem, toggleSnackbar, toggleSnackbarError } = useStore();
-    const queryClient = useQueryClient();
 
     const handleAddCart = (item: any) => {
         mutate(item);
@@ -24,7 +23,7 @@ export default function ProductCard({ products }: { products: any }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             };
-            return fetch('http://localhost:8000/cart/add', requestOptions);
+            return fetch('/api/cart/add', requestOptions);
         },
         onSuccess: async (data) => {
             if (data.status == 201) {

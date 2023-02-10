@@ -1,6 +1,6 @@
 from typing import Optional
 from uuid import UUID
-
+from datetime import datetime
 from pydantic import BaseModel
 
 
@@ -48,6 +48,19 @@ class UserCart(BaseModel):
     name: str
     price: float
     image: str
+
+    class Config:
+        orm_mode = True
+
+
+class Order(BaseModel):
+    id: Optional[UUID]
+    order_id: Optional[UUID]
+    email: str
+    name: str
+    price: float
+    image: str
+    date: datetime
 
     class Config:
         orm_mode = True

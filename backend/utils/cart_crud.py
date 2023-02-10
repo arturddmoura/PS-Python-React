@@ -1,7 +1,8 @@
 from uuid import UUID
 from sqlalchemy.orm import Session
-from database.models import Cart
+from database.models import Cart, Orders
 from schemas.models import DeletePostResponse
+import uuid
 
 
 def cart_item_create(db: Session, item: Cart):
@@ -28,3 +29,18 @@ def cart_item_delete(db: Session, id: UUID):
     db.query(Cart).filter_by(id=id).delete()
     db.commit()
     return DeletePostResponse(detail="Cart item deleted")
+
+
+def cart_checkout(db: Session, email: str):
+    cart = db.query(Cart).filter_by(email=email).all()
+    if not cart:
+        return DeletePostResponse(detail="Cart is empty")
+    myuuid = uuid.uuid4()
+    for item in cart:
+        item_row = Orders(order_id=myuuid, email=item.email, name=item.name,
+                          price=item.price, image=item.image)
+        db.add(item_row)
+
+    db.query(Cart).filter_by(email=email).delete()
+    db.commit()
+    return DeletePostResponse(detail="Cart deleted")

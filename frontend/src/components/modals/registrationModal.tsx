@@ -8,7 +8,7 @@ import { useMutation } from 'react-query';
 export default function RegistrationModal() {
     const { showRegister, toggleShowRegister, toggleSnackbarError, toggleSnackbar } = useStore();
 
-    const { mutate, isLoading, isSuccess, isError } = useMutation({
+    const { mutate, isLoading } = useMutation({
         mutationFn: (formData: any) => {
             const requestOptions = {
                 method: 'POST',
