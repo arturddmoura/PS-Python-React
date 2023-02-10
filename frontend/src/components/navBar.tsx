@@ -1,16 +1,16 @@
+import { useStore } from '../store';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AppBar from '@mui/material/AppBar';
+import Badge from '@mui/material/Badge';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Badge from '@mui/material/Badge';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { useStore } from '../store';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 
 export default function NavBar() {
-    const { cartItems, loggedIn, toggleLoggedIn, toggleShowLogin, toggleShowRegister } = useStore();
+    const { cartItems, loggedIn, toggleLoggedIn, toggleShowLogin, toggleShowRegister, toggleShowCart } = useStore();
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -22,7 +22,14 @@ export default function NavBar() {
                     <Divider />
                     {loggedIn ? (
                         <>
-                            <IconButton size="large" aria-label="cart" color="inherit">
+                            <IconButton
+                                onClick={() => {
+                                    toggleShowCart();
+                                }}
+                                size="large"
+                                aria-label="cart"
+                                color="inherit"
+                            >
                                 <Badge badgeContent={cartItems} color="error">
                                     <ShoppingCartIcon />
                                 </Badge>

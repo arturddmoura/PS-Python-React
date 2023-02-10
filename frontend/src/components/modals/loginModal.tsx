@@ -7,8 +7,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
 export default function LoginModal() {
-    const { showLogin, toggleShowLogin, toggleSnackbarError, toggleSnackbar, toggleLoggedIn, setEmail } = useStore();
-    const [emailAddress, setEmailAddress] = useState('');
+    const { email, showLogin, toggleShowLogin, toggleSnackbarError, toggleSnackbar, toggleLoggedIn, setEmail } =
+        useStore();
 
     const { mutate, isLoading, isSuccess, isError } = useMutation({
         mutationFn: (formData: any) => {
@@ -17,7 +17,7 @@ export default function LoginModal() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             };
-            setEmailAddress(formData.email);
+            setEmail(formData.email);
             return fetch('http://localhost:8000/user/login', requestOptions);
         },
         onSuccess: async (data) => {
@@ -25,7 +25,6 @@ export default function LoginModal() {
                 toggleSnackbar();
                 toggleShowLogin();
                 toggleLoggedIn();
-                setEmail(emailAddress);
             } else if (data.status == 401) {
                 toggleSnackbarError();
             }

@@ -14,3 +14,15 @@ export const modalStyles = {
     boxShadow: 24,
     p: 4,
 };
+
+export const cartStyles = {
+    position: 'absolute' as 'absolute',
+    borderRadius: '5px',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 700,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+};

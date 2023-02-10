@@ -1,4 +1,5 @@
 import './App.css';
+import CartModal from './components/modals/cartModal';
 import NavBar from './components/navBar';
 import SnackBar from './components/snackbars/snackBar';
 import SnackBarError from './components/snackbars/snackBarError';
@@ -9,12 +10,13 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 const queryClient = new QueryClient();
 
 export default function App() {
-    const { snackbar, snackbarError } = useStore();
+    const { snackbar, snackbarError, showCart } = useStore();
 
     return (
         <QueryClientProvider client={queryClient}>
             {snackbarError && <SnackBarError />}
             {snackbar && <SnackBar />}
+            {showCart && <CartModal />}
             <NavBar />
             <Products />
         </QueryClientProvider>
