@@ -20,7 +20,7 @@ export default function CartTable({ cartItems }: any) {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
             };
-            return fetch(`http://localhost:8000/cart/delete/${formData.id}`, requestOptions);
+            return fetch(`/api/cart/delete/${formData.id}`, requestOptions);
         },
         onSuccess: async (data: { status: number }) => {
             if (data.status == 200) {
@@ -37,7 +37,7 @@ export default function CartTable({ cartItems }: any) {
     });
 
     return (
-        <TableContainer sx={{ mt: 2, maxHeight: 440, minWidth: 600 }}>
+        <TableContainer sx={{ mt: 2, maxHeight: '50vh', minWidth: '50vw' }}>
             <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
@@ -52,7 +52,7 @@ export default function CartTable({ cartItems }: any) {
                         <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                             <TableCell align="left">
                                 <img
-                                    style={{ maxWidth: '100px' }}
+                                    style={{ maxWidth: '10vw' }}
                                     src={`/src/assets/${row.image}?w=161&fit=crop&auto=format`}
                                     alt={row.name}
                                     loading="lazy"

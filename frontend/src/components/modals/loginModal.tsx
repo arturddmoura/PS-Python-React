@@ -17,7 +17,7 @@ export default function LoginModal() {
                 body: JSON.stringify(formData),
             };
             setEmail(formData.email);
-            return fetch('http://localhost:8000/user/login', requestOptions);
+            return fetch('/api/user/login', requestOptions);
         },
         onSuccess: async (data) => {
             if (data.status == 202) {

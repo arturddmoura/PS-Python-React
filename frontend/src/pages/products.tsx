@@ -17,7 +17,7 @@ export default function Products() {
     };
 
     const fetchProducts = async () => {
-        const res = await fetch(`http://localhost:8000/products/list/${sort}`);
+        const res = await fetch(`/api/products/list/${sort}`);
         return res.json();
     };
     const { isLoading, isError, data } = useQuery(['products', sort], fetchProducts);
@@ -30,7 +30,7 @@ export default function Products() {
                     justifyContent: 'flex-end',
                 }}
             >
-                <FormControl sx={{ m: 2, minWidth: 120 }} size="small">
+                <FormControl sx={{ mx: 3, mt: 2, minWidth: 120 }} size="small">
                     <InputLabel id="demo-select-small">Sort</InputLabel>
                     <Select
                         labelId="demo-select-small"

@@ -20,7 +20,7 @@ export default function CartModal() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
         };
-        const res = await fetch(`http://localhost:8000/cart/get?email=${email}`, requestOptions);
+        const res = await fetch(`/api/cart/get?email=${email}`, requestOptions);
         return res.json();
     };
     const { isLoading, isError, data } = useQuery(['cart'], fetchCart);

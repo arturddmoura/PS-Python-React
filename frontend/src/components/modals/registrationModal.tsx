@@ -15,7 +15,7 @@ export default function RegistrationModal() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             };
-            return fetch('http://localhost:8000/user/create', requestOptions);
+            return fetch('/api/user/create', requestOptions);
         },
         onSuccess: async (data) => {
             if (data.status == 201) {
