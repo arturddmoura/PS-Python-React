@@ -1,5 +1,6 @@
 import { currencyFormatter } from '../helpers/helpers';
 import { useStore } from '../store';
+import { cartItem } from '../types';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import { Box, IconButton } from '@mui/material';
 import Card from '@mui/material/Card';
@@ -8,15 +9,15 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { useMutation } from 'react-query';
 
-export default function ProductCard({ products }: { products: any }) {
+export default function ProductCard({ products }: { products: Array<cartItem> }) {
     const { email, loggedIn, addCartItem, toggleSnackbar, toggleSnackbarError } = useStore();
 
-    const handleAddCart = (item: any) => {
+    const handleAddCart = (item: cartItem) => {
         mutate(item);
     };
 
     const { mutate, isLoading, isSuccess, isError } = useMutation({
-        mutationFn: (formData: any) => {
+        mutationFn: (formData: cartItem) => {
             formData['email'] = email;
             const requestOptions = {
                 method: 'POST',
@@ -46,7 +47,7 @@ export default function ProductCard({ products }: { products: any }) {
                 m: 1,
             }}
         >
-            {products.map((item: any) => {
+            {products.map((item: cartItem) => {
                 return (
                     <Card key={item.id} sx={{ m: 1, width: 245 }}>
                         <CardMedia

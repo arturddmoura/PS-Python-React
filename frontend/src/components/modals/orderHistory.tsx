@@ -1,5 +1,6 @@
 import { cartStyles } from '../../helpers/helpers';
 import { useStore } from '../../store';
+import { orderType } from '../../types';
 import OrderDetails from './orderDetails';
 import AddIcon from '@mui/icons-material/Add';
 import { Box, IconButton, Modal, Typography } from '@mui/material/';
@@ -14,7 +15,7 @@ import { useQuery } from 'react-query';
 
 export default function OrderHistory() {
     const { email, showOrderHistory, toggleShowOrderHistory, toggleOrderDetails } = useStore();
-    const [orderId, setOrderId] = useState();
+    const [orderId, setOrderId] = useState<orderType>();
     const fetchHistory = async () => {
         const requestOptions = {
             method: 'POST',
@@ -51,7 +52,7 @@ export default function OrderHistory() {
                             </TableHead>
                             <TableBody>
                                 {data &&
-                                    data.map((row: any, index: number) => (
+                                    data.map((row: orderType, index: number) => (
                                         <TableRow
                                             key={index}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

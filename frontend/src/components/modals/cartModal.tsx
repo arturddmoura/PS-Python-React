@@ -1,15 +1,16 @@
 import { cartStyles, currencyFormatter } from '../../helpers/helpers';
 import { useStore } from '../../store';
+import { cartItem } from '../../types';
 import CartTable from '../table/cartTable';
 import { Box, Button, Modal, Typography } from '@mui/material/';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
-function subtotal(items: any) {
-    return (items || []).map(({ price }: { price: number }) => price).reduce((sum: any, i: any) => sum + i, 0);
+function subtotal(items: Array<cartItem>) {
+    return (items || []).map(({ price }: { price: number }) => price).reduce((sum: number, i: number) => sum + i, 0);
 }
 
-function shipping(items: any) {
-    return (items || []).map(({ price }: { price: number }) => price).reduce((sum: any, i: any) => sum + 10, 0);
+function shipping(items: Array<cartItem>) {
+    return (items || []).map(({ price }: { price: number }) => price).reduce((sum: number, i: number) => sum + 10, 0);
 }
 
 export default function CartModal() {
@@ -51,7 +52,7 @@ export default function CartModal() {
 
     const invoiceSubtotal = subtotal(data);
     const shippingTotal = shipping(data);
-    const cartTotal = (invoiceSubtotal: any, shippingTotal: any) => {
+    const cartTotal = (invoiceSubtotal: number, shippingTotal: number) => {
         if (invoiceSubtotal >= 250.0) {
             shippingTotal = 0;
         }

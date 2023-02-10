@@ -1,4 +1,5 @@
 import { currencyFormatter } from '../../helpers/helpers';
+import { orderType } from '../../types';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-export default function OrderTable({ orderDetails }: any) {
+export default function OrderTable({ orderDetails }: { orderDetails: Array<orderType> }) {
     return (
         <>
             {orderDetails && (
@@ -20,7 +21,7 @@ export default function OrderTable({ orderDetails }: any) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {orderDetails.map((row: any) => (
+                            {orderDetails.map((row: orderType) => (
                                 <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <TableCell align="left">
                                         <img

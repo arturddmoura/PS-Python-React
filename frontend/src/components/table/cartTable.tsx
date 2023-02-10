@@ -1,5 +1,6 @@
 import { currencyFormatter } from '../../helpers/helpers';
 import { useStore } from '../../store';
+import { cartItem } from '../../types';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
@@ -11,12 +12,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useMutation, useQueryClient } from 'react-query';
 
-export default function CartTable({ cartItems }: any) {
+export default function CartTable({ cartItems }: { cartItems: Array<cartItem> }) {
     const { removeCartItem, toggleSnackbarError, toggleSnackbar } = useStore();
     const queryClient = useQueryClient();
 
     const { mutate, isLoading, isSuccess, isError } = useMutation({
-        mutationFn: (formData: any) => {
+        mutationFn: (formData: cartItem) => {
+            console.log(formData);
             const requestOptions = {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
@@ -50,7 +52,7 @@ export default function CartTable({ cartItems }: any) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {cartItems.map((row: any) => (
+                            {cartItems.map((row: cartItem) => (
                                 <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <TableCell align="left">
                                         <img

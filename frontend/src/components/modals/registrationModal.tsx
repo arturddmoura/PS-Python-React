@@ -1,5 +1,6 @@
 import { modalStyles } from '../../helpers/helpers';
 import { useStore } from '../../store';
+import { registration } from '../../types';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, Button, Modal, TextField, Typography } from '@mui/material/';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -9,7 +10,7 @@ export default function RegistrationModal() {
     const { showRegister, toggleShowRegister, toggleSnackbarError, toggleSnackbar } = useStore();
 
     const { mutate, isLoading } = useMutation({
-        mutationFn: (formData: any) => {
+        mutationFn: (formData: registration) => {
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -36,8 +37,8 @@ export default function RegistrationModal() {
         watch,
         handleSubmit,
         formState: { errors },
-    } = useForm<any>();
-    const onSubmit: SubmitHandler<any> = (data) => mutate(data);
+    } = useForm<registration>();
+    const onSubmit: SubmitHandler<registration> = (data) => mutate(data);
 
     return (
         <Modal

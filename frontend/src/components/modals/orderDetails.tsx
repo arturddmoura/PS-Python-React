@@ -1,18 +1,19 @@
 import { cartStyles, currencyFormatter } from '../../helpers/helpers';
 import { useStore } from '../../store';
+import { orderType } from '../../types';
 import OrderTable from '../table/orderTable';
 import { Box, Modal, Typography } from '@mui/material/';
 import { useQuery, useQueryClient } from 'react-query';
 
-function subtotal(items: any) {
-    return (items || []).map(({ price }: { price: number }) => price).reduce((sum: any, i: any) => sum + i, 0);
+function subtotal(items: Array<orderType>) {
+    return (items || []).map(({ price }: { price: number }) => price).reduce((sum: number, i: number) => sum + i, 0);
 }
 
-function shipping(items: any) {
-    return (items || []).map(({ price }: { price: number }) => price).reduce((sum: any, i: any) => sum + 10, 0);
+function shipping(items: Array<orderType>) {
+    return (items || []).map(({ price }: { price: number }) => price).reduce((sum: number, i: number) => sum + 10, 0);
 }
 
-export default function OrderDetails({ order }: any) {
+export default function OrderDetails({ order }: { order: orderType }) {
     const { orderDetails, toggleOrderDetails } = useStore();
     const queryClient = useQueryClient();
 
@@ -28,7 +29,7 @@ export default function OrderDetails({ order }: any) {
 
     const invoiceSubtotal = subtotal(data);
     const shippingTotal = shipping(data);
-    const cartTotal = (invoiceSubtotal: any, shippingTotal: any) => {
+    const cartTotal = (invoiceSubtotal: number, shippingTotal: number) => {
         if (invoiceSubtotal >= 250.0) {
             shippingTotal = 0;
         }

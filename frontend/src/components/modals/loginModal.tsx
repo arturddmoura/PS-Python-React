@@ -1,5 +1,6 @@
 import { modalStyles } from '../../helpers/helpers';
 import { useStore } from '../../store';
+import { login } from '../../types';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, Button, Modal, TextField, Typography } from '@mui/material/';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -9,7 +10,7 @@ export default function LoginModal() {
     const { showLogin, toggleShowLogin, toggleSnackbarError, toggleSnackbar, toggleLoggedIn, setEmail } = useStore();
 
     const { mutate, isLoading } = useMutation({
-        mutationFn: (formData: any) => {
+        mutationFn: (formData: login) => {
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -37,8 +38,8 @@ export default function LoginModal() {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<any>();
-    const onSubmit: SubmitHandler<any> = (data) => mutate(data);
+    } = useForm<login>();
+    const onSubmit: SubmitHandler<login> = (data) => mutate(data);
 
     return (
         <Modal
