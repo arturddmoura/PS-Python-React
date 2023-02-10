@@ -17,6 +17,10 @@ def cart_get_all(db: Session, email: str):
     return db.query(Cart).filter_by(email=email).all()
 
 
+def cart_get_number(db: Session, email: str):
+    return db.query(Cart.price).filter_by(email=email).count()
+
+
 def cart_item_delete(db: Session, id: UUID):
     post = db.query(Cart).filter_by(id=id).all()
     if not post:

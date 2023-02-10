@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import { useMutation, useQueryClient } from 'react-query';
 
 export default function CartTable({ cartItems }: any) {
-    const { showRegister, toggleShowRegister, toggleSnackbarError, toggleSnackbar } = useStore();
+    const { showRegister, removeCartItem, toggleSnackbarError, toggleSnackbar } = useStore();
     const queryClient = useQueryClient();
 
     const { mutate, isLoading, isSuccess, isError } = useMutation({
@@ -25,6 +25,7 @@ export default function CartTable({ cartItems }: any) {
         onSuccess: async (data: { status: number }) => {
             if (data.status == 200) {
                 toggleSnackbar();
+                removeCartItem();
             } else if (data.status == 404) {
                 toggleSnackbarError();
             }

@@ -8,7 +8,8 @@ from schemas.models import DeletePostResponse, UserCart, UpdatePost
 from utils.cart_crud import (
     cart_get_all,
     cart_item_create,
-    cart_item_delete
+    cart_item_delete,
+    cart_get_number
 )
 
 router = APIRouter(tags=["cart"])
@@ -22,6 +23,11 @@ def add_cart_item(item: UserCart, db: Session = Depends(get_db)):
 @router.post("/get", status_code=status.HTTP_200_OK, response_model=List[UserCart])
 def add_cart_item(email: str, db: Session = Depends(get_db)):
     return cart_get_all(db=db, email=email)
+
+
+@router.post("/number", status_code=status.HTTP_200_OK, response_model=int)
+def add_cart_item(email: str, db: Session = Depends(get_db)):
+    return cart_get_number(db=db, email=email)
 
 
 @router.delete(

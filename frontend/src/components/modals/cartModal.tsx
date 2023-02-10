@@ -70,7 +70,9 @@ export default function CartModal() {
                             </Typography>
                         </Box>
                         <Box sx={{ alignSelf: 'flex-end' }}>
-                            <Button variant="contained">Checkout</Button>
+                            <Button onClick={() => console.log('foi')} variant="contained">
+                                Checkout
+                            </Button>
                         </Box>
                     </Box>
                 )}

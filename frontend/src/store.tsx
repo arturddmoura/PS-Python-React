@@ -17,6 +17,8 @@ type AddModal = {
     toggleShowCart: () => void;
     addCartItem: () => void;
     setEmail: (newValue: string) => void;
+    setCartItems: (newValue: number) => void;
+    removeCartItem: () => void;
 };
 
 export const useStore = create<AddModal>((set) => ({
@@ -35,5 +37,7 @@ export const useStore = create<AddModal>((set) => ({
     toggleSnackbarError: () => set((state) => ({ snackbarError: !state.snackbarError })),
     toggleShowCart: () => set((state) => ({ showCart: !state.showCart })),
     addCartItem: () => set((state) => ({ cartItems: state.cartItems + 1 })),
+    removeCartItem: () => set((state) => ({ cartItems: state.cartItems - 1 })),
     setEmail: (newValue) => set({ email: newValue }),
+    setCartItems: (newValue) => set({ cartItems: newValue }),
 }));
