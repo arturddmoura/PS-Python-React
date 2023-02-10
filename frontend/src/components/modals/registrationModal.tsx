@@ -1,8 +1,8 @@
 import { modalStyles } from '../../helpers/helpers';
 import { useStore } from '../../store';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Modal, Typography, Box, TextField, Button } from '@mui/material/';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { Box, Button, Modal, TextField, Typography } from '@mui/material/';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
 export default function RegistrationModal() {

@@ -1,7 +1,7 @@
 import { currencyFormatter } from '../helpers/helpers';
 import { useStore } from '../store';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import { Button, CardActionArea, CardActions, IconButton, Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -18,7 +18,6 @@ export default function ProductCard({ products }: { products: any }) {
 
     const { mutate, isLoading, isSuccess, isError } = useMutation({
         mutationFn: (formData: any) => {
-            console.log(formData);
             formData['email'] = email;
             const requestOptions = {
                 method: 'POST',
@@ -28,7 +27,6 @@ export default function ProductCard({ products }: { products: any }) {
             return fetch('http://localhost:8000/cart/add', requestOptions);
         },
         onSuccess: async (data) => {
-            console.log(data);
             if (data.status == 201) {
                 toggleSnackbar();
             } else if (data.status != 201) {
@@ -73,13 +71,7 @@ export default function ProductCard({ products }: { products: any }) {
                             }}
                         >
                             <Box>
-                                <Typography
-                                    sx={{ fontWeight: 'bold' }}
-                                    align="left"
-                                    gutterBottom
-                                    variant="caption"
-                                    component="div"
-                                >
+                                <Typography sx={{ fontWeight: 'bold' }} align="left" variant="body2" component="div">
                                     Price: {currencyFormatter.format(Number(item.price))}
                                 </Typography>
                                 <Typography sx={{ fontWeight: 'bold' }} align="left" variant="body2" component="div">

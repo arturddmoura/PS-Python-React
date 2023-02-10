@@ -1,5 +1,5 @@
 import { useStore } from '../../store';
-import { Snackbar, Alert } from '@mui/material/';
+import { Alert, Snackbar } from '@mui/material/';
 
 export default function SnackBar() {
     const { snackbar, toggleSnackbar } = useStore();

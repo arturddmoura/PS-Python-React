@@ -1,21 +1,49 @@
 import { currencyFormatter } from '../../helpers/helpers';
-import Paper from '@mui/material/Paper';
+import { useStore } from '../../store';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { useMutation, useQueryClient } from 'react-query';
 
 export default function CartTable({ cartItems }: any) {
+    const { showRegister, toggleShowRegister, toggleSnackbarError, toggleSnackbar } = useStore();
+    const queryClient = useQueryClient();
+
+    const { mutate, isLoading, isSuccess, isError } = useMutation({
+        mutationFn: (formData: any) => {
+            const requestOptions = {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            };
+            return fetch(`http://localhost:8000/cart/delete/${formData.id}`, requestOptions);
+        },
+        onSuccess: async (data: { status: number }) => {
+            if (data.status == 200) {
+                toggleSnackbar();
+            } else if (data.status == 404) {
+                toggleSnackbarError();
+            }
+            queryClient.invalidateQueries('cart');
+        },
+        onError: async (error) => {
+            toggleSnackbarError();
+        },
+    });
+
     return (
-        <TableContainer component={Paper} sx={{ maxHeight: 440, minWidth: 600 }}>
+        <TableContainer sx={{ mt: 2, maxHeight: 440, minWidth: 600 }}>
             <Table stickyHeader aria-label="sticky table">
                 <TableHead>
                     <TableRow>
                         <TableCell></TableCell>
                         <TableCell>Product</TableCell>
-                        <TableCell align="right">Price</TableCell>
+                        <TableCell align="left">Price</TableCell>
+                        <TableCell></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -32,7 +60,17 @@ export default function CartTable({ cartItems }: any) {
                             <TableCell component="th" scope="row">
                                 {row.name}
                             </TableCell>
-                            <TableCell align="right">{currencyFormatter.format(Number(row.price))}</TableCell>
+                            <TableCell align="left">{currencyFormatter.format(Number(row.price))}</TableCell>
+                            <TableCell align="right">
+                                <IconButton
+                                    onClick={() => {
+                                        mutate(row);
+                                    }}
+                                    aria-label="add to shopping cart"
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
