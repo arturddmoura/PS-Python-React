@@ -2,7 +2,7 @@ import { cartStyles, currencyFormatter } from '../../helpers/helpers';
 import { useStore } from '../../store';
 import { orderType } from '../../types';
 import OrderTable from '../table/orderTable';
-import { Box, Modal, Typography } from '@mui/material/';
+import { Box, Modal, Stack, Typography } from '@mui/material/';
 import { useQuery, useQueryClient } from 'react-query';
 
 function subtotal(items: Array<orderType>) {
@@ -57,21 +57,29 @@ export default function OrderDetails({ order }: { order: orderType }) {
                         </Typography>
 
                         <OrderTable orderDetails={data} />
-                        <Box sx={{ mt: 3 }}>
-                            <Typography variant="subtitle2">
-                                Products: {currencyFormatter.format(Number(invoiceSubtotal))}
-                            </Typography>
-                            <Typography variant="subtitle2">
-                                Shipping:{' '}
-                                {invoiceSubtotal >= 250.0
-                                    ? currencyFormatter.format(Number(0))
-                                    : currencyFormatter.format(Number(shippingTotal))}
-                            </Typography>
-                            <Typography variant="subtitle2">
-                                Total: {currencyFormatter.format(Number(cartTotal(invoiceSubtotal, shippingTotal)))}
-                            </Typography>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                                p: 1,
+                                mt: 3,
+                            }}
+                        >
+                            <Stack>
+                                <Typography textAlign="right" variant="subtitle2">
+                                    Products: {currencyFormatter.format(Number(invoiceSubtotal))}
+                                </Typography>
+                                <Typography textAlign="right" variant="subtitle2">
+                                    Shipping:{' '}
+                                    {invoiceSubtotal >= 250.0
+                                        ? currencyFormatter.format(Number(0))
+                                        : currencyFormatter.format(Number(shippingTotal))}
+                                </Typography>
+                                <Typography textAlign="right" variant="subtitle2">
+                                    Total: {currencyFormatter.format(Number(cartTotal(invoiceSubtotal, shippingTotal)))}
+                                </Typography>
+                            </Stack>
                         </Box>
-                        <Box sx={{ alignSelf: 'flex-end' }}></Box>
                     </Box>
                 </Modal>
             )}
