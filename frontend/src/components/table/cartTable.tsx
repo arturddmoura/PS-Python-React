@@ -18,7 +18,6 @@ export default function CartTable({ cartItems }: { cartItems: Array<cartItem> })
 
     const { mutate, isLoading, isSuccess, isError } = useMutation({
         mutationFn: (formData: cartItem) => {
-            console.log(formData);
             const requestOptions = {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
