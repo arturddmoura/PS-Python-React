@@ -2,6 +2,7 @@ import ProductCard from '../components/cardComponent';
 import Loading from '../components/loading/loading';
 import LoginModal from '../components/modals/loginModal';
 import RegistrationModal from '../components/modals/registrationModal';
+import NotFound from '../components/pageNotFound';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -21,7 +22,6 @@ export default function Products() {
         return res.json();
     };
     const { isLoading, isError, data } = useQuery(['products', sort], fetchProducts);
-
     return (
         <>
             <Box
@@ -48,6 +48,11 @@ export default function Products() {
             <RegistrationModal />
             <LoginModal />
             {isLoading && <Loading />}
+            {data && data.length == 0 && (
+                <>
+                    <NotFound text={'Empty database. Please add products and try again!'} />
+                </>
+            )}
             {data && <ProductCard products={data} />}
         </>
     );
